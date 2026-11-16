@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">◉</div>
+    <div>
+      <h1>Token Radar</h1>
+      <p class="tagline">Every pre-token protocol in the snapshot, ranked by what its token would be worth if its record stayed as it is.</p>
+    </div>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<section class="model" id="model">
+  <h2>How the radar scores</h2>
+  <p class="formula">implied value = TVL &times; <span id="base-multiple">0.082</span> &times; growth &times; maturity</p>
+  <p>The <strong id="base-multiple-text">0.082</strong> is the median market-cap-to-TVL ratio of the <strong id="live-count">52</strong> token-trading protocols in this snapshot — measured from the data, not guessed. <strong>Growth</strong> adjusts for the last 7 days of TVL change (clamped, so one wild week cannot dominate). <strong>Maturity</strong> rewards the protocols that have run longest with no token, up to two years. Exchanges, bridges and wrapped or staked products are set aside: they record no token because they are not protocols that issue one.</p>
+  <p class="note">Implied values are this radar's own estimates from one snapshot. They do not predict whether or when any token is issued.</p>
+</section>
+
+<section class="controls" aria-label="Board controls">
+  <input id="search" type="search" placeholder="Search a protocol…" autocomplete="off">
+  <select id="category" aria-label="Filter by category"></select>
+  <select id="chain" aria-label="Filter by chain"></select>
+  <label class="toggle"><input id="watchlist-only" type="checkbox"> Watchlist only</label>
+  <select id="sort" aria-label="Sort the board">
+    <option value="rank">Sort: by rank</option>
+    <option value="tvl">Sort: by TVL</option>
+    <option value="growth">Sort: by 7-day growth</option>
+    <option value="age">Sort: by age</option>
+  </select>
+</section>
+
+<section class="detail hidden" id="detail" aria-live="polite"></section>
+
+<main>
+  <table class="board" id="board">
+    <thead>
+      <tr>
+        <th class="num">#</th>
+        <th>Protocol</th>
+        <th class="num">TVL</th>
+        <th class="num">7 days</th>
+        <th class="num">Age</th>
+        <th class="num">Implied value</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="count" id="count"></p>
+</main>
+
+<section class="live" id="live">
+  <h2>Already trading — the yardstick</h2>
+  <p>The base multiple comes from these token-trading protocols in the same snapshot. Their median market-cap-to-TVL ratio is what the board prices pre-token protocols against.</p>
+  <table class="live-table" id="live-table">
+    <thead><tr><th>Protocol</th><th class="num">TVL</th><th class="num">Market cap</th><th class="num">mcap / TVL</th></tr></thead>
+    <tbody id="live-rows"></tbody>
+  </table>
+</section>
+
+<footer>
+  <p>Snapshot: DefiLlama public protocols data, fetched 14 November 2026. A protocol is called pre-token when the snapshot records no token for it — the record is not proof it has none. Farm steps are educational, not financial advice. Never deposit more than you can afford to lose.</p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
